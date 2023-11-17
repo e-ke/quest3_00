@@ -9,5 +9,6 @@ EditorBuildSettings:
     path: Assets/App/Scenes/MrScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 4e4cb4a7b02f4af4f97113b3ceed5e0b, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: abce1f70800b06348bee636ef6f996df, type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 38302c643333d954f85cbe35ef665688, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: caf8ea35d22b3f545abfb82b8959a3de, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: d92fa3a77499d2d47aee1b4622d4a475, type: 2}
