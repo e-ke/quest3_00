@@ -25,8 +25,10 @@ namespace raspberly.ovr
         private void LateUpdate ()
         {
             if(isImmediateMove) transform.position = target.position;
-            else transform.position = Vector3.Lerp(transform.position, target.position, followMoveSpeed);
-
+            else {
+                transform.position = Vector3.Lerp(transform.position, target.position, followMoveSpeed);
+            }
+            
             rotDif = target.rotation * Quaternion.Inverse(transform.rotation);
             rot = target.rotation;
             if(isLockX) rot.x = 0;
