@@ -71,3 +71,6 @@ UserSettings/
 
 # StreamingAssetsフォルダがビルド時に作られて何故か空フォルダが残る
 StreamingAssets.meta
+
+# Ignore .mp4 files in Assets/StreamingAssets
+Assets/StreamingAssets/*.mp4
