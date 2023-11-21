@@ -13,10 +13,14 @@ public class InputManager : MonoBehaviour
     public CreateLights Lights_BR;
     public CreateLights Lights_BL;
 
+    private Material sky;
+
+    [SerializeField] private OVRPassthroughLayer passthroughLayer;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        sky = RenderSettings.skybox;
     }
 
     // Update is called once per frame
@@ -31,6 +35,14 @@ public class InputManager : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.RawButton.B))
         {
             Debug.Log("Bボタンを押した");
+            // Debug.Log(OVRManager.instance.isInsightPassthroughEnabled);
+            // Debug.Log(passthroughLayer.textureOpacity);  // [BB]Background Passthrough > OVR Passthrough Layer > Style > Opacity
+            OVRManager.instance.isInsightPassthroughEnabled = !OVRManager.instance.isInsightPassthroughEnabled;
+            if (OVRManager.instance.isInsightPassthroughEnabled) {
+                RenderSettings.skybox = null;
+            } else {
+                RenderSettings.skybox = sky;
+            }
         }
 
         // 左コントローラー //////////////////////////////////////////
