@@ -2,39 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// [ExecuteInEditMode]
 public class CreateLights : MonoBehaviour
 {
+    public GameObject lightObjectPrefab;
     [SerializeField] private Vector3 startPoint;
-    [SerializeField] private Vector3 endPoint;
-    [SerializeField] private int rightNum;  // ライトの個数
+    [SerializeField] private Vector3 spacing;
+    [SerializeField] private int rightNum = 5;  // ライトの個数
     [SerializeField] private float oneStrokeDuration = 0.6f;  // ライトの1ストロークにかける時間
     [SerializeField] private float d_i = 0.125f;
-    [SerializeField] private float i_m = 50;
+    [SerializeField] private float targetIntensity = 2;//50;
     [SerializeField] private int strokeNum = 5;
+    [SerializeField] private Color lightColor;
     // [SerializeField] private bool shouldLog = false;
 
-    public GameObject lightObjectPrefab;
     private List<GameObject> lightObjects = new List<GameObject>();
     private bool isRunning = false;
     // private OutputCSV csv;
 
     private void Start()
     {
-        // SpawnLights();
-        
-        // StartCoroutine(ExecuteProcessA());
+        CreateLight();
     }
 
-    private void SpawnLights()
-    {
+    private void CreateLight() {
         for (int i = 0; i <= rightNum; i++)
         {
-            float t = (float)i / rightNum;
-            Vector3 position = Vector3.Lerp(startPoint, endPoint, t);
-            GameObject lightObject = Instantiate(lightObjectPrefab, position, Quaternion.identity);
-            lightObjects.Add(lightObject);
+            GameObject newLight = Instantiate(lightObjectPrefab, new Vector3(startPoint[0] + spacing[0] * i, startPoint[1] + spacing[1] * i, startPoint[2] ), Quaternion.identity);
+            // 新しいライトをこのオブジェクトの子として設定(false:インスタンスのローカルtransformを維持)
+            newLight.transform.SetParent(transform, false);
+            Light lightComponent = newLight.GetComponent<Light>();
+            if (lightComponent != null)
+            {
+                lightComponent.color = lightColor;  // ライトの色を設定
+            }
+            lightObjects.Add(newLight);
         }
     }
+
 
     // 実行メソッド
     public void run(){
@@ -49,18 +54,19 @@ public class CreateLights : MonoBehaviour
             float delay = (float)oneStrokeDuration / (rightNum + 1);
             for (int i = 0; i <= rightNum; i++)
             {
-                StartCoroutine(ChangeIntensity(lightObjects[i].GetComponentInChildren<Light>(), d_i, i_m));
+                StartCoroutine(ChangeIntensity(lightObjects[i].GetComponentInChildren<Light>(), d_i, this.targetIntensity));
                 yield return new WaitForSeconds(delay);
             }
         }
         isRunning = false;
+        Debug.Log("Finished");
     }
 
     private IEnumerator ChangeIntensity(Light light, float duration, float targetIntensity)
     {
         float initialIntensity = light.intensity;
         float elapsedTime = 0;
-
+        Debug.Log("Intensity"+initialIntensity+"->"+targetIntensity);
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;

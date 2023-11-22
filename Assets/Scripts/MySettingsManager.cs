@@ -5,6 +5,7 @@ public class MySettingsManager : MonoBehaviour
 {
     // 起動時のパススルー状態を指定
     [SerializeField] private Boolean isPassthroughEnableOnStartup = false;
+    public Camera CenterEyeCam;
     void Start()
     {
         // FFRを「Low」レベルに設定
@@ -13,7 +14,12 @@ public class MySettingsManager : MonoBehaviour
         OVRManager.instance.isInsightPassthroughEnabled = isPassthroughEnableOnStartup;
         if (isPassthroughEnableOnStartup)
         {
-            RenderSettings.skybox = null;
+            CenterEyeCam.clearFlags = CameraClearFlags.Color;
+            // RenderSettings.skybox = null;
+        }
+        else
+        {
+            CenterEyeCam.clearFlags = CameraClearFlags.Skybox;
         }
     }
 }
